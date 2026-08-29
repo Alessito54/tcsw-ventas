@@ -18,7 +18,7 @@ Este proyecto crea un ambiente reproducible con Java 11 y Maven para desarrollar
 ## Tecnologías y versiones
 
 - Java 11
-- Maven 3.x
+- Maven 3.9.16  
 - JUnit 5
 - Git
 - Docker
