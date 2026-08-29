@@ -1,0 +1,98 @@
+@startuml P02_diagrama_uml
+
+' Estilos
+skin rose
+
+' Producto (desde P01)
+class Producto {
+    - codigo: String
+    - nombre: String
+    - precio: BigDecimal
+    - existencia: int
+    --
+    + Producto(codigo, nombre, precio, existencia)
+    + getCodigo(): String
+    + getNombre(): String
+    + getPrecio(): BigDecimal
+    + getExistencia(): int
+    + setCodigo(codigo)
+    + setNombre(nombre)
+    + setPrecio(precio)
+    + setExistencia(existencia)
+    + equals(o): boolean
+    + hashCode(): int
+    + toString(): String
+}
+
+' Moneda (Objeto de Valor)
+class Moneda {
+    - cantidad: BigDecimal
+    --
+    + Moneda(cantidad)
+    + obtener(): BigDecimal
+    + multiplicar(factor): Moneda
+    + sumar(otra): Moneda
+    + equals(o): boolean
+    + hashCode(): int
+    + toString(): String
+}
+
+' DetalleVenta / Partida
+class DetalleVenta {
+    - producto: Producto
+    - cantidad: int
+    - precioUnitario: Moneda
+    --
+    + DetalleVenta(producto, cantidad, precioUnitario)
+    + getProducto(): Producto
+    + getCantidad(): int
+    + getPrecioUnitario(): Moneda
+    + obtenerSubtotal(): Moneda
+    + equals(o): boolean
+    + hashCode(): int
+    + toString(): String
+}
+
+' Venta
+class Venta {
+    - detalles: List<DetalleVenta>
+    --
+    + Venta()
+    + agregarDetalle(detalle)
+    + obtenerDetalles(): List<DetalleVenta>
+    + obtenerTotal(): Moneda
+    + cantidadDetalles(): int
+    + equals(o): boolean
+    + hashCode(): int
+    + toString(): String
+}
+
+' Relaciones
+DetalleVenta "1" --> "1" Producto : usa
+DetalleVenta "1" --> "1" Moneda : precioUnitario
+DetalleVenta "1" --> "1" Moneda : subtotal (calcula)
+Venta "1" --> "*" DetalleVenta : contiene
+Venta "1" --> "1" Moneda : total (calcula)
+
+note right of Moneda
+    Objeto de valor que encapsula dinero.
+    Proporciona operaciones seguras:
+    - multiplicación
+    - suma
+end note
+
+note right of DetalleVenta
+    Partida de venta con:
+    - Producto (obligatorio)
+    - Cantidad (> 0)
+    - Precio unitario (>= 0)
+    - Subtotal (cálculo automático)
+end note
+
+note right of Venta
+    Contiene múltiples detalles.
+    Calcula total automáticamente.
+    Encapsula lista de detalles.
+end note
+
+@enduml
