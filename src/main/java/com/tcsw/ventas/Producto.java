@@ -104,7 +104,7 @@ public class Producto {
 
     @Override
     public String toString() {
-        return "Producto{" +
+        return "Producto[B]{" +
                 "codigo='" + codigo + '\'' +
                 ", nombre='" + nombre + '\'' +
                 ", precio=" + precio +
